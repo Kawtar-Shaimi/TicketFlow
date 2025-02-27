@@ -69,6 +69,30 @@
                     @enderror
                 </div>
                 <div class="mb-5">
+                    <label for="role" class="block text-sm font-medium text-white mb-1">
+                        Rôle
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user-tag text-white/60"></i>
+                        </div>
+                        <select
+                            id="role"
+                            name="role"
+                            required
+                            class="appearance-none rounded-lg relative block w-full px-10 py-3 bg-white/20 border border-white/10 placeholder-white/60 text-white/60 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:z-10 sm:text-sm transition duration-300"
+                        >
+                            <option class="text-black" value="" disabled selected>Sélectionnez un rôle</option>
+                            <option class="text-black" value="admin">Admin</option>
+                            <option class="text-black" value="developer">Developer</option>
+                            <option class="text-black" value="user">User</option>
+                        </select>
+                    </div>
+                    @error('role')
+                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-5">
                     <label for="password" class="block text-sm font-medium text-white mb-1">
                         Mot de passe
                     </label>
