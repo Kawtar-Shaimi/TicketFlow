@@ -20,4 +20,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class);
     }
+    public function assignement()
+    {
+        return $this->hasMany(Asignement::class);
+    }
 }
