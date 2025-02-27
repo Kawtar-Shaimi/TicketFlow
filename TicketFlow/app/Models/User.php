@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use PhpParser\Node\Expr\Assign;
 use PHPUnit\Framework\Attributes\Ticket;
 
 class User extends Authenticatable
