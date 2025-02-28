@@ -9,6 +9,6 @@ class ClientController extends Controller
 {
     public function index(){
         $tickets = Ticket::all();
-        return view('client.index',compact('tickets'));
+        return view('index',compact('tickets'));
     }
 }

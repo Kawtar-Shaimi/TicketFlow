@@ -93,7 +93,7 @@
     <div class="container mx-auto px-4 py-12 text-center">
         <h2 class="text-3xl font-bold text-white mb-6">Ready to Get Started?</h2>
         <p class="text-gray-400 text-xl mb-8">Sign up now and streamline your ticket management process with TicketFlow.</p>
-        <a href="{{ route('registerView') }}" 
+        <a href="#" 
            class="bg-purple-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-purple-600 transition-colors">
             Get Started
         </a>
