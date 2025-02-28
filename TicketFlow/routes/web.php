@@ -18,6 +18,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 // Route::post('/home', [ClientController::class, 'index'])->name('index')->middleware(['auth,client']);
 
+/* Client routes */
+// Route::middleware(['auth', 'client'])->group(function () {
+//     Route::get('/home', [ClientController::class, 'index'])->name('home');
+// });
+
 Route::get('/',function(){
-    return view('index');
+    return view('clients.index');
 });
