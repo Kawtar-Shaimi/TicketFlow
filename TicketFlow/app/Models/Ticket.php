@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Client;
+use App\Models\Asignement;
 
 class Ticket extends Model
 {
@@ -14,8 +16,13 @@ class Ticket extends Model
         'user_id'
     ];
 
-    public function user()
+    public function client()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Client::class);
+    }
+
+    public function assignement()
+    {
+        return $this->hasOne(Asignement::class);
     }
 }

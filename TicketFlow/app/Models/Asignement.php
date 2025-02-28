@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin;
+use App\Models\Developer;
+use App\Models\Ticket;
 
 class Asignement extends Model
 {
     protected $fillable = [
         'ticket_id',
-        'user_id',
-        'asignement_date'
+        'developer_id',
+        'admin_id'
     ];
 
     public function ticket()
@@ -17,8 +20,13 @@ class Asignement extends Model
         return $this->belongsTo(Ticket::class);
     }
 
-    public function user()
+    public function admin()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Admin::class);
+    }
+
+    public function developer()
+    {
+        return $this->belongsTo(Developer::class);
     }
 }

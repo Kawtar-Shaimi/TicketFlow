@@ -17,13 +17,13 @@
     </head>
     <body class="font-sans antialiased">
         <main class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-            @auth
+            {{-- @auth
                 @include('layouts.header')
-            @endauth
+            @endauth --}}
             @yield('content')
-            @auth
+            {{-- @auth
                 @include('layouts.footer')
-            @endauth
+            @endauth --}}
         </main>
     </body>
 </html>

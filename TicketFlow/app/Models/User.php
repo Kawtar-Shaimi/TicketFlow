@@ -15,13 +15,4 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
-
-    public function ticket()
-    {
-        return $this->hasMany(Ticket::class);
-    }
-    public function assignement()
-    {
-        return $this->hasMany(Asignement::class);
-    }
 }
