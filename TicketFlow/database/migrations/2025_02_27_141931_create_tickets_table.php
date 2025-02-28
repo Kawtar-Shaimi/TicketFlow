@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('priority', ['high', 'medium', 'low']);
             $table->string('os')->nullable();
             $table->string('software')->nullable();
-            $table->enum('status', ['open', 'in_progress', 'resolved', 'closed'])->default('open');
+            $table->enum('status', ['En cours', 'Résolu', 'Fermé'])->default('En cours');
             $table->timestamps();
         });
     }
