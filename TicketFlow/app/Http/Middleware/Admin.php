@@ -19,8 +19,8 @@ class Admin
         if (Auth::user()->role === 'admin'){
             return $next($request);
         }elseif(Auth::user()->role === 'client'){
-            return redirect()->route('client');
+            return redirect()->route('clients.index');
         }
-        return redirect()->route('developper');
+        return redirect()->route('developpers.index');
     }
 }

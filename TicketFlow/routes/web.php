@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DeveloperController;
+use App\Http\Controllers\FilterController;
+use App\Http\Controllers\StatisticsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,16 +18,48 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware(['auth,client,developer']);
+Route::prefix('/')->middleware('auth')->group(function () {
+    /* Logout route */
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    /* Home redirection route */
+    Route::get('/',function(){
+        if (Auth::user()->role === 'admin'){
+            return view('admins.index');
+        }elseif(Auth::user()->role === 'client'){
+            return view('clients.index');
+        }
+        return view('developpers.index');
+    });
 
+    /* Client routes */
+    Route::prefix('clients')->as('clients.')->middleware( 'client')->group(function () {
+        /* Home route */
+        Route::get('/', [ClientController::class, 'index'])->name('index');
+        /* Filter routes */
+        Route::post('/search', [FilterController::class, 'clientSearch'])->name('search');
+        Route::post('/ticketsByPriority', [FilterController::class, 'getClientTicketsByPriority'])->name('ticketsByPriority');
+        Route::post('/ticketsByStatus', [FilterController::class, 'getClientTicketsByStatus'])->name('ticketsByStatus');
+    });
 
-// Route::post('/home', [ClientController::class, 'index'])->name('index')->middleware(['auth,client']);
+    /* Admin routes */
+    Route::prefix('admins')->as('admins.')->middleware('admin')->group(function () {
+        /* Home route */
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        /* Filter routes */
+        Route::post('/search', [FilterController::class, 'adminSearch'])->name('search');
+        Route::post('/ticketsByPriority', [FilterController::class, 'getAdminTicketsByPriority'])->name('ticketsByPriority');
+        Route::post('/ticketsByStatus', [FilterController::class, 'getAdminTicketsByStatus'])->name('ticketsByStatus');
+        /* Statistic route */
+        Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
+    });
 
-/* Client routes */
-// Route::middleware(['auth', 'client'])->group(function () {
-//     Route::get('/home', [ClientController::class, 'index'])->name('home');
-// });
-
-Route::get('/',function(){
-    return view('clients.index');
+    /* Developper routes */
+    Route::prefix('developpers')->as('developpers.')->middleware('developper')->group(function () {
+        /* Home route */
+        Route::get('/', [DeveloperController::class, 'index'])->name('index');
+        /* Filter routes */
+        Route::post('/search', [FilterController::class, 'developerSearch'])->name('search');
+        Route::post('/ticketsByPriority', [FilterController::class, 'getDeveloperTicketsByPriority'])->name('ticketsByPriority');
+        Route::post('/ticketsByStatus', [FilterController::class, 'getDeveloperTicketsByStatus'])->name('ticketsByStatus');
+    });
 });

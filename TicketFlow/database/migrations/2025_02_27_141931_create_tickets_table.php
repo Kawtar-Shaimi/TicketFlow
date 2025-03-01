@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
             $table->enum('priority', ['high', 'medium', 'low']);
             $table->string('os')->nullable();
             $table->string('software')->nullable();
-            $table->enum('status', ['En cours', 'Résolu', 'Fermé'])->default('En cours');
+            $table->enum('status', ['en cours', 'résolu', 'fermé'])->default('en cours');
             $table->timestamps();
         });
     }

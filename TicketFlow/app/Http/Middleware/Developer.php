@@ -18,8 +18,10 @@ class Developer
     {
         if (Auth::user()->role === 'developer'){
             return $next($request);
+        }elseif(Auth::user()->role === 'admin'){
+            return redirect()->route('admins.index');
         }
-        return redirect()->route('client');
-        
+        return redirect()->route('clients.index');
+
     }
 }

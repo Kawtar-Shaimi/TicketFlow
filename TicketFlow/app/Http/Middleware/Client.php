@@ -15,13 +15,13 @@ class Client
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {   
+    {
         if (Auth::user()->role === 'client') {
             return $next($request);
         }elseif(Auth::user()->role === 'admin'){
-            return redirect()->route('admin');
+            return redirect()->route('admins.index');
         }
 
-        return redirect()->route('developer');
+        return redirect()->route('developers.index');
     }
 }
