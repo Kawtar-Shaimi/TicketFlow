@@ -9,11 +9,13 @@ use App\Models\Asignement;
 class Ticket extends Model
 {
     protected $fillable = [
-        'name',
+        'title',
         'description',
+        'os',
+        'software',
         'status',
         'priority',
-        'user_id'
+        'client_id'
     ];
 
     public function client()

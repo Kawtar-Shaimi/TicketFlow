@@ -1,13 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-    <!-- Animated Background Elements -->
-    <div class="absolute inset-0 z-0">
-        <div class="absolute -top-24 -left-24 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-    </div>
+<div class="w-full flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 overflow-hidden">
 
     <!-- Login Form Card -->
     <div class="max-w-md w-full space-y-8 bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-2xl transform transition duration-500 hover:scale-105 relative z-10">
@@ -83,9 +77,8 @@
                             class="appearance-none rounded-lg relative block w-full px-10 py-3 bg-white/20 border border-white/10 placeholder-white/60 text-white/60 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:z-10 sm:text-sm transition duration-300"
                         >
                             <option class="text-black" value="" disabled selected>Sélectionnez un rôle</option>
-                            <option class="text-black" value="admin">Admin</option>
                             <option class="text-black" value="developer">Developer</option>
-                            <option class="text-black" value="user">User</option>
+                            <option class="text-black" value="client">Client</option>
                         </select>
                     </div>
                     @error('role')

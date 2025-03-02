@@ -8,96 +8,52 @@ use Illuminate\Support\Facades\Auth;
 
 class FilterController extends Controller
 {
-    public function adminSearch(Request $request)
+    private function filter(Request $request, $query)
     {
-        $request->validate([
-            'query' => 'required',
-        ]);
-        $tickets = Ticket::where('title', 'like', '%' . $request->search . '%')
-        ->orWhere('description', 'like', '%' . $request->search . '%')->get();
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if(isset($request->status)){
+            $query->where('status', $request->status);
+        }
+
+        if(isset($request->priority)){
+            $query->where('priority', $request->priority);
+        }
+
+        return $query;
+    }
+
+    public function adminFilter(Request $request)
+    {
+        $query = Ticket::query();
+
+        $tickets = $this->filter($request, $query)->get();
+
         return view('admins.index', compact('tickets'));
     }
 
-    public function clientSearch(Request $request)
+    public function clientFilter(Request $request)
     {
-        $request->validate([
-            'query' => 'required',
-        ]);
-        $tickets = Ticket::where('client_id', Auth::id())
-        ->where('title', 'like', '%' . $request->search . '%')
-        ->orWhere('description', 'like', '%' . $request->search . '%')->get();
+        $query = Ticket::where('client_id', Auth::id());
+
+        $tickets = $this->filter($request, $query)->get();
+
         return view('clients.index', compact('tickets'));
     }
 
-    public function developerSearch(Request $request)
+    public function developerFilter(Request $request)
     {
-        $request->validate([
-            'query' => 'required',
-        ]);
-        $tickets = Ticket::join('asignements', 'asignements.ticket_id', '=', 'tickets.id')
-        ->where('asignements.developer_id', Auth::id())
-        ->where('title', 'like', '%' . $request->search . '%')
-        ->orWhere('description', 'like', '%' . $request->search . '%')->get();
+        $query = Ticket::join('asignements', 'asignements.ticket_id', '=', 'tickets.id')
+        ->where('asignements.developer_id', Auth::id());
+
+        $tickets = $this->filter($request, $query)->get();
+
         return view('developers.index', compact('tickets'));
     }
 
-    public function getAdminTicketsByStatus(Request $request)
-    {
-        $request->validate([
-            'status' => 'required',
-        ]);
-        $tickets = Ticket::where('status', $request->status)->get();
-        return view('admins.index', compact('tickets'));
-    }
-
-    public function getClientTicketsByStatus(Request $request)
-    {
-        $request->validate([
-            'status' => 'required',
-        ]);
-        $tickets = Ticket::where('client_id', Auth::id())
-        ->where('status', $request->status)->get();
-        return view('clients.index', compact('tickets'));
-    }
-
-    public function getDeveloperTicketsByStatus(Request $request)
-    {
-        $request->validate([
-            'status' => 'required',
-        ]);
-        $tickets = Ticket::join('asignements', 'asignements.ticket_id', '=', 'tickets.id')
-        ->where('asignements.developer_id', Auth::id())
-        ->where('status', $request->status)->get();
-        return view('developers.index', compact('tickets'));
-    }
-
-    public function getAdminTicketsByPriority(Request $request)
-    {
-        $request->validate([
-            'priority' => 'required',
-        ]);
-        $tickets = Ticket::where('priority', $request->priority)->get();
-        return view('admins.index', compact('tickets'));
-    }
-
-    public function getClientTicketsByPriority(Request $request)
-    {
-        $request->validate([
-            'priority' => 'required',
-        ]);
-        $tickets = Ticket::where('client_id', Auth::id())
-        ->where('priority', $request->priority)->get();
-        return view('clients.index', compact('tickets'));
-    }
-
-    public function getDeveloperTicketsByPriority(Request $request)
-    {
-        $request->validate([
-            'priority' => 'required',
-        ]);
-        $tickets = Ticket::join('asignements', 'asignements.ticket_id', '=', 'tickets.id')
-        ->where('asignements.developer_id', Auth::id())
-        ->where('priority', $request->priority)->get();
-        return view('developers.index', compact('tickets'));
-    }
 }

@@ -21,6 +21,6 @@ class Admin
         }elseif(Auth::user()->role === 'client'){
             return redirect()->route('clients.index');
         }
-        return redirect()->route('developpers.index');
+        return redirect()->route('developers.index');
     }
 }

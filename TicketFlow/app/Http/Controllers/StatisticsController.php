@@ -11,18 +11,21 @@ class StatisticsController extends Controller
     {
         $createdTicketsCount = Ticket::count();
 
-        $assignedTicketsCount = Ticket::join('asignments', 'tickets.id', '=', 'asignments.ticket_id')->count();
+        $assignedTicketsCount = Ticket::join('asignements', 'tickets.id', '=', 'asignements.ticket_id')->count();
 
         $finishedTicketsCount = Ticket::where('status', 'résolu')->count();
 
         $ticketsBySoftwareCount = Ticket::select('software', Ticket::raw('count(*) as total'))
-        ->groupBy('software')->get();
+        ->groupBy('software')
+        ->orderBy('total', 'desc')
+        ->get();
 
-        $developersByFinishedTicketsCount  = Ticket::join('asignments', 'tickets.id', '=', 'asignments.ticket_id')
-        ->join('users', 'asignments.developer_id', '=', 'users.id')
+        $developersByFinishedTicketsCount  = Ticket::join('asignements', 'tickets.id', '=', 'asignements.ticket_id')
+        ->join('users', 'asignements.developer_id', '=', 'users.id')
         ->where('tickets.status', 'résolu')
-        ->select('users.name', Ticket::raw('count(*) as total'))
-        ->groupBy('users.name')
+        ->select('users.id', 'users.name', Ticket::raw('count(*) as total'))
+        ->groupBy('users.id', 'users.name')
+        ->orderBy('total', 'desc')
         ->get();
 
         return view('statistics.index', compact('createdTicketsCount', 'assignedTicketsCount', 'finishedTicketsCount', 'ticketsBySoftwareCount', 'developersByFinishedTicketsCount'));

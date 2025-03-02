@@ -16,17 +16,18 @@ class AsignementController extends Controller
         return view('asignements.create', compact('ticket', 'developers'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Ticket $ticket)
     {
         $request->validate([
             'developer_id' => 'required',
-            'ticket_id' => 'required',
         ]);
+
         Asignement::create([
             'developer_id' => $request->developer_id,
-            'ticket_id' => $request->ticket_id,
+            'ticket_id' => $ticket->id,
             'admin_id' => Auth::id(),
         ]);
+
         return redirect()->route('admins.index')->with('success', 'Asignement created successfully');
     }
 }

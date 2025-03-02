@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -14,22 +15,26 @@ class TicketController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'name'=> 'required,max:15',
-            'description'=> 'required',
-            'status'=> 'required|in:en cours,résolu,fermé',
+            'title'=> 'required|string',
+            'description'=> 'required|string',
+            'os'=> 'required|string',
+            'software'=> 'required|string',
             'priority'=> 'required|in:low,medium,high',
         ]);
+
         Ticket::create([
-            'name' => $request->name,
+            'client_id'=> Auth::id(),
+            'title' => $request->title,
             'description'=>$request->description,
-            'status'=>$request->status,
+            'os'=>$request->os,
+            'software'=>$request->software,
             'priority'=>$request->priority,
         ]);
         return redirect()->route('clients.index')->with('success','Ticket created successfully');
     }
 
     public function changeStatusView(Ticket $ticket){
-        return view('tickets.change.status',compact('ticket'));
+        return view('tickets.change-status',compact('ticket'));
     }
 
     public function changeStatus(Request $request, Ticket $ticket){
